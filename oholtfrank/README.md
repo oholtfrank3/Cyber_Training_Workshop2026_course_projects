@@ -29,55 +29,35 @@ is unable to be characterized and requires the inclusion of nonadiabatic dynamic
 
 ## Workshop software: adoption, integration, future use
 
-**Three workshop codes, integrated into one workflow** — and the project could
-not have been done with any one of them alone:
+**Three workshop codes, integrated into one workflow**
 
 ```
 OpenMolcas ──> surfaces, oscillator strengths, XMS-CASPT2 validation
      │
      └──> PySpawn ──> AIMS cascade (the central result)
      │         ↑
-     │         └── REQUIRED PATCHING (see below)
+     │         └── patched for more than ten states.
      │
 Libra ──────> NE-FGR attempt (documented negative) + analysis environment
 ```
 
-### I patched PySpawn to make this project possible
+### Patched PySpawn to make this project possible
 
-`molcas_interface.py::get_overlap` **hard-exits above 10 singlet states.** This
-project needs 13. The fix was not a bigger array bound: the RASSI
-`OVERLAP MATRIX FOR THE ORIGINAL STATES` block is the **lower triangle of the
-combined (2N)×(2N) overlap over both geometries** — 351 floats for N=13, which
-is 26·27/2 — so the original hardcoded 5/10-state line-counting cannot
-generalize. Replaced with a token-based parser that slices the cross-geometry
-block, **verified against a 13-state run** (diagonal reproduced to five
-decimals; 16 trajectories × 2 days × 225 spawns with no issues).
+`molcas_interface.py::get_overlap` **hard-exits above 10 singlet states.** Working
+with claude code we developed a token-based parser that slices the cross-geometry block,
+which was verified against a 13-state run (needed for this project)
 
-→ [`project/patches/molcas_interface_get_overlap.diff`](project/patches/) · reported to B. Levine
-
-### I found a bug in the workshop's OpenMolcas→PySpawn Hessian converter
-
-`Molcas_2_pySpawn_hessian.py` reads the **BFGS optimizer** Hessian from
-`.slapaf.h5` rather than the analytic MCKINLEY one → ~15% high frequencies →
-~15% wrong Wigner amplitudes for anyone converting after a geometry
-optimization. Reported to A. Mehmood. This project works around it by
-reconstructing from `.freq.molden` normal modes.
+→ [`project/patches/molcas_interface_get_overlap.diff`](project/patches/)
 
 ### Continued use
 
-This is not a workshop exercise that ends here. The AIMS capability goes
-directly into:
+This connects directly to my research:
 
-- **My thesis** — the cascade result is the dynamical half of the VPD chapter.
-- **A JPCL manuscript in preparation** (Ar_n·H₂O ICD/ETMD competition) — the
+- **A JCP lett manuscript in preparation** (Ar_n·H₂O ICD/ETMD competition) — the
   fragmentation KER answers the "observable signature" question my candidacy
   committee raised.
-- **A follow-up model-system study** — the two-acceptor experiment proposed in
-  the project README, testing when the FGR one-step assumption fails. That study
-  is designed around Libra + PySpawn.
-- **An open question to A. Akimov** on whether NE-FGR supports dissociative
-  continuum acceptors, arising directly from the documented negative in
-  `04_rates_and_coupling/`.
+- **A follow-up study** — Experimental collaborators (Orlando) have
+  expressed interest in VPD in this system, so this is part of a future investigation.
 
 ---
 
