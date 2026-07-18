@@ -7,15 +7,14 @@ CyberTraining 2026 course project
 
 ## The result in one sentence
 
-An Ar 3s⁻¹ hole at 28.97 eV, unable to decay by ICD (Coulomb-blocked),
+An Ar 3s⁻¹ hole at 28.97 eV that is unable to decay by ICD,
 transfers its energy by virtual photon to a **bright superexcited state of water
-at 13.3 eV**; that state turns out to be **bound**, not directly dissociative,
-so fragmentation proceeds by **internal conversion down the Rydberg–valence
-manifold** onto the Ã surface, which ejects an H atom in 16.4 fs.
-
-**This contradicts the standard Fermi-golden-rule treatment**, which assumes the
-acceptor absorbs and dissociates in one step. See
-[the finding](project/README.md#the-finding-fgrs-one-step-assumption-fails-here).
+at 13.3 eV**. This state has been found to be bound, not directly dissociaive, with
+fragmentation accessible through nonadiabatic internal conversion in the excited state
+manifold onto the Ã surface, which ejects an H atom in 16.4 fs. This contrasts with 
+golden-rule expressions for energy transfer into a dissociative continuum (VPD), with
+the state populated at resonance unable to dissociate. Therefore the single-step fragmentation
+is unable to be characterized and requires the inclusion of nonadiabatic dynamics.
 
 | | value | method |
 |---|---|---|
